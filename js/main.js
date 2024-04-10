@@ -1,3 +1,5 @@
-menu = document.getElementById("menu")
-
-console.log(menu)
+const menu = document.getElementById("menu")
+const cartModal = document.getElementById("cart-modal")
+const cartBtn = document.getElementById("cart-btn")
+const cartItems = document.getElementById("cart-items")
+const cartTotal = document.getElementById("cart-total")
