@@ -148,6 +148,13 @@ addressInput.addEventListener("input", function (event) {
 })
 
 checkoutBtn.addEventListener("click", function () {
+    const isOpen = checkRestaurant()
+
+    // if (!isOpen){
+    //     alert("FECHADO - Atendimento das 18:00 as 23:00")
+    //     return
+    // }
+    
     if (cart.length === 0){
         return
     }
@@ -156,4 +163,53 @@ checkoutBtn.addEventListener("click", function () {
         addressInput.classList.add("border-red-500")
         return
     }
+
+
+    // enviar pedido p/ wpp
+
+    const cartItems = cart.map((item)=> {
+        return (
+            `${item.name} Quantidade: ${item.quantity} Preço: R$ ${item.price} \n `
+        )
+    }).join("")
+
+    const totalValue = cart.reduce((total, item) => {
+        return total + (item.quantity * item.price);
+    }, 0);
+    
+    
+    const finalOrder = `${cartItems} \n Total: R$ ${totalValue.toFixed(2)}`
+
+    const message = encodeURIComponent(finalOrder)
+    const phone = "83996481008"
+
+    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`,"_blank")
+    
 })
+
+function checkRestaurant () {
+    const data = new Date();
+    const hora = data.getHours();
+
+    return hora >= 18 && hora < 22;
+}
+
+
+
+const isOpen = checkRestaurant();
+const spanItem = document.getElementById("date-span")
+
+
+if (isOpen){
+    spanItem.classList.remove("bg-red-500");
+    spanItem.classList.add("bg-green-600");
+    
+}else{
+    spanItem.classList.remove("bg-green-600");
+    spanItem.classList.add("bg-red-500");
+    spanItem.textContent = 'Fechado (Horario de Funcionamento : terça a domingo - 18:00 as 23:00)'
+    spanItem.classList.add("text-white")
+}
+
+
+//
