@@ -137,3 +137,23 @@ function removeCartItem(name) {
     }
     return updateCartModal();
 }
+
+addressInput.addEventListener("input", function (event) {
+    let inputValue = event.target.value
+
+    if (inputValue !== ""){
+        addressWarn.classList.add("hidden")
+        addressInput.classList.remove("border-red-500")
+    }
+})
+
+checkoutBtn.addEventListener("click", function () {
+    if (cart.length === 0){
+        return
+    }
+    if (addressInput.value === ""){
+        addressWarn.classList.remove("hidden")
+        addressInput.classList.add("border-red-500")
+        return
+    }
+})
