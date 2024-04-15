@@ -3,6 +3,8 @@
 
 Aplicação desenvolvida com finalidade de captação de pedidos online para uma hamburgueria, redirecionando os pedidos feitos no site para uma conversa WhatsApp do estabelecimento.
 
+https://cardapio-flax.vercel.app/
+
 ## Funcionalidades
 
 - Verifica horario de funcionamento;
