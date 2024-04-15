@@ -45,7 +45,7 @@ menu.addEventListener("click", function(event){
 
 })
 
-
+// Adiciona Itens no Carrinho
 function addToCart(name, price) {
     const Multipleitems = cart.find(item => item.name == name)
     
@@ -149,7 +149,18 @@ checkoutBtn.addEventListener("click", function () {
     // Verifica se o restaurante está em horario de Funcionamento
     const isOpen = checkRestaurant()
     if (!isOpen){
-        alert("FECHADO - Atendimento das 18:00 as 23:00")
+        Toastify({
+            text: "não estamos funcionando no momento :(",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+              background: "#f23",
+            },
+            onClick: function(){} // Callback after click
+          }).showToast();
         return
     }
     
