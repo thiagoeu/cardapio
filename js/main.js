@@ -217,7 +217,7 @@ if (isOpen){
 }else{
     spanItem.classList.remove("bg-green-600");
     spanItem.classList.add("bg-red-500");
-    spanItem.textContent = 'Fechado (Horario de Funcionamento : terça a domingo - 18:00 as 23:00)'
+    spanItem.textContent = 'Fechado (Funcionamento : terça a domingo - 18:00 as 23:00)'
     spanItem.classList.add("text-white")
 }
 
