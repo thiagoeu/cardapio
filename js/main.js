@@ -9,16 +9,16 @@ const cartCount = document.getElementById("cart-count");
 const addressInput = document.getElementById("address");
 const addressWarn = document.getElementById("address-warn");
 
-
+// Carrrinho
 let cart = [];
 
-// open cart modal
+// abre cart modal
 cartBtn.addEventListener("click" , function () {
     updateCartModal();
     cartModal.style.display = "flex"
 })
 
-// close modal
+// fecha modal clicando fora da caixa do pedido
 cartModal.addEventListener("click" , function(event) {
     if (event.target === cartModal) {
         cartModal.style.display = "none"
@@ -31,8 +31,6 @@ closeModalBtn.addEventListener("click", function() {
 
 
 menu.addEventListener("click", function(event){
-    //console.log(event.target)
-
     // faz a verificação se a classe esta no pai ou no filho
     let parentButton = event.target.closest(".add-to-cart-btn")
 
@@ -66,8 +64,7 @@ function addToCart(name, price) {
    
 }
 
-// atualiza carrinhio
-
+// Atualiza itens no carrinho
 function updateCartModal() {
     cartItems.innerHTML = "";
     let total = 0;
@@ -108,9 +105,7 @@ function updateCartModal() {
     cartCount.innerHTML = cart.length
 }
 
-
-// função para remover item do carrinho
-
+// Removendo items do carrinho
 cartItems.addEventListener("click", function (event){
     if(event.target.classList.contains("remove-item-btn")) {
         const name = event.target.getAttribute("data-name")
@@ -120,7 +115,7 @@ cartItems.addEventListener("click", function (event){
         
     }
 })
-
+// Removendo items do carrinho
 function removeCartItem(name) {
     const index = cart.findIndex(item => item.name == name)
 
@@ -138,6 +133,8 @@ function removeCartItem(name) {
     return updateCartModal();
 }
 
+
+// Validação de endereço para pedido
 addressInput.addEventListener("input", function (event) {
     let inputValue = event.target.value
 
@@ -147,14 +144,16 @@ addressInput.addEventListener("input", function (event) {
     }
 })
 
+// Finalização do Pedido + Enviar pedido para Whatsapp
 checkoutBtn.addEventListener("click", function () {
+    // Verifica se o restaurante está em horario de Funcionamento
     const isOpen = checkRestaurant()
-
-    // if (!isOpen){
-    //     alert("FECHADO - Atendimento das 18:00 as 23:00")
-    //     return
-    // }
+    if (!isOpen){
+        alert("FECHADO - Atendimento das 18:00 as 23:00")
+        return
+    }
     
+    // Validações de pre-requisitos para realizar um pedido
     if (cart.length === 0){
         return
     }
@@ -165,28 +164,30 @@ checkoutBtn.addEventListener("click", function () {
     }
 
 
-    // enviar pedido p/ wpp
+    // Enviar pedido p/ wpp
 
+    // lista os itens no carrinho
     const cartItems = cart.map((item)=> {
         return (
             `${item.name} Quantidade: ${item.quantity} Preço: R$ ${item.price} \n `
         )
     }).join("")
 
+    // Calcula o total a ser pago.
     const totalValue = cart.reduce((total, item) => {
         return total + (item.quantity * item.price);
     }, 0);
     
-    
+    // Monta string para envio 
     const finalOrder = `${cartItems} \n Total: R$ ${totalValue.toFixed(2)}`
 
     const message = encodeURIComponent(finalOrder)
     const phone = "83996481008"
-
-    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`,"_blank")
+    window.open(`https://wa.me/${phone}?text=${message} \n Endereço: ${addressInput.value}`,"_blank")
     
 })
 
+// Validação de Horario de funcionamento
 function checkRestaurant () {
     const data = new Date();
     const hora = data.getHours();
@@ -195,11 +196,9 @@ function checkRestaurant () {
 }
 
 
-
+// Alteração visual da tag de horario de funcionamento
 const isOpen = checkRestaurant();
 const spanItem = document.getElementById("date-span")
-
-
 if (isOpen){
     spanItem.classList.remove("bg-red-500");
     spanItem.classList.add("bg-green-600");
@@ -211,5 +210,3 @@ if (isOpen){
     spanItem.classList.add("text-white")
 }
 
-
-//
